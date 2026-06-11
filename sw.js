@@ -1,5 +1,5 @@
 // Service Worker — cache app shell (network-first per i dati)
-const CACHE_NAME = "eaw-v1";
+const CACHE_NAME = "eaw-v2";
 const STATIC_ASSETS = [
   "/",
   "/index.html",
