@@ -1,35 +1,34 @@
 # Contribuire a OpenStage
 
-Grazie per l'interesse! OpenStage è un progetto open source pensato per i cantautori emergenti. Ogni contributo — codice, design, documentazione, traduzioni, idee — è benvenuto.
+Grazie per l'interesse! OpenStage è un template open-source che permette a un cantautore di avere il proprio sito musicale in pochi minuti. Contributi di ogni tipo — codice, design, temi, documentazione, traduzioni — sono benvenuti.
 
 ## Come iniziare
 
-1. Fai un **fork** del repo e clona il tuo fork.
-2. Segui l'avvio locale nel [README](README.md#-avvio-locale).
-3. Crea un branch descrittivo: `git checkout -b feat/ricerca-brani`.
-4. Fai le tue modifiche. Prima di aprire la PR:
+1. Fai un **fork** del repo e clonalo.
+2. `npm install` poi `npm run dev`.
+3. Crea un branch: `git checkout -b feat/tema-chiaro`.
+4. Prima della PR verifica che tutto compili:
    ```bash
    npm run typecheck
    npm run build
    ```
-5. Apri una **Pull Request** verso `main` spiegando cosa cambia e perché.
+5. Apri una **Pull Request** verso `main` spiegando cosa cambia.
 
-## Linee guida
+## Principi del progetto
 
-- **TypeScript** ovunque; niente `any` non necessari.
-- Componenti piccoli e a responsabilità singola in `src/components`, pagine in `src/pages`.
-- Stile con **Tailwind**; usa i token colore definiti in `tailwind.config.js`.
-- L'accesso ai dati passa **sempre** dal client Supabase con RLS — mai chiavi segrete nel frontend.
-- Commit chiari (it/en va bene). Conventional Commits gradito ma non obbligatorio.
+- **Semplicità prima di tutto.** Il pubblico è un artista che non programma: ogni feature deve restare configurabile da `site.config.ts` senza toccare il codice.
+- **Statico di default.** Il sito deve funzionare senza backend; i contatori (Supabase) sono opt-in e degradano in modo pulito se assenti.
+- **TypeScript** ovunque, componenti piccoli, stile con **Tailwind** usando i token in `tailwind.config.js`.
 
 ## Buona prima issue
 
-- Filtri per genere ed una barra di ricerca
-- Pagina "Artisti" con la lista dei profili
-- Modifica/eliminazione copertina di un brano già caricato
-- Internazionalizzazione (i18n) IT/EN
-- Miglioramenti accessibilità (focus, ARIA, contrasto)
+- Temi/preset di colore aggiuntivi
+- Layout alternativo della copertina (griglia invece di lista)
+- Pagina/embed per condividere il singolo brano
+- Internazionalizzazione (i18n) IT/EN dell'interfaccia
+- Generatore di Open Graph image per le anteprime social
+- Migliorie di accessibilità (focus, ARIA, contrasto)
 
 ## Codice di condotta
 
-Sii gentile e rispettoso. Questo è uno spazio per aiutare gli artisti a farsi ascoltare: trattiamo le persone come vorremmo essere trattati.
+Sii gentile e rispettoso. Questo progetto esiste per aiutare gli artisti a farsi ascoltare.

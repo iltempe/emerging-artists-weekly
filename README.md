@@ -1,76 +1,98 @@
 # OpenStage 🎤
 
-**La piattaforma open-source dove i cantautori emergenti pubblicano e promuovono la propria musica.**
+**Il tuo sito musicale, online in pochi minuti.**
 
-Niente algoritmi, niente gatekeeper. Ti registri, carichi i tuoi brani, costruisci la tua pagina pubblica e condividi il link. Gli ascoltatori scoprono, ascoltano e mettono like — in modo anonimo. Gratis, per sempre, e open source.
+OpenStage è un template open-source per **un singolo cantautore**: metti i tuoi brani, scrivi le tue info in un file, pubblichi. Niente account da gestire, niente piattaforma di terzi che decide chi ti ascolta. È il **tuo** sito, sul **tuo** dominio.
 
-> Progetto in evoluzione. Nato come MVP, cresce con la community.
+> Per chi non programma: i passaggi sono "modifica un file di testo, trascina i tuoi MP3, clicca deploy".
+
+![Player con i tuoi brani](docs/preview.svg)
 
 ---
 
-## ✨ Funzionalità
+## 🚀 Mettiti online in 4 passi
 
-- **Registrazione libera** per gli artisti (email + password, Supabase Auth)
-- **Upload dei brani** (MP3/WAV/OGG) con copertina, direttamente dall'artista
-- **Pagina pubblica** per ogni artista: `/@nome-arte` con bio, generi, link social e brani
-- **Player audio globale** persistente durante la navigazione
-- **Esplora** gli ultimi brani caricati
-- **Like e ascolti anonimi** (nessun account richiesto per ascoltare)
-- **Studio** personale per gestire profilo e brani (pubblica / nascondi / elimina)
+1. **Crea la tua copia** — clicca *Use this template* (o fai un fork) su GitHub.
+2. **Scrivi le tue info** — apri [`site.config.ts`](site.config.ts) e metti nome, bio e link.
+3. **Aggiungi la tua musica** — trascina i file in `public/music/` e le copertine in `public/images/`, poi aggiungi un blocco per ogni brano nell'elenco `tracks`.
+4. **Pubblica** — un click qui sotto:
 
-## 🧱 Stack
+[![Deploy con Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/iltempe/emerging-artists-weekly)
+&nbsp;
+[![Deploy su Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/iltempe/emerging-artists-weekly)
 
-| Layer | Tecnologia |
-|---|---|
-| Frontend | React + TypeScript + Vite |
-| Stile | Tailwind CSS |
-| Auth / DB / Storage | Supabase (PostgreSQL, Auth, Storage) |
-| Hosting | Vercel / Netlify (statico) |
+Vercel e Netlify costruiscono il sito da soli e ti danno un indirizzo `https://…`. In più puoi collegare il **tuo dominio** (es. `www.tuonome.it`) dalle loro impostazioni in due click.
 
-## 🚀 Avvio locale
+> In alternativa, **GitHub Pages**: gratis e già pronto. Vai su *Settings → Pages → Source: GitHub Actions*. Il workflow incluso pubblica a ogni modifica.
 
-Servono **Node 18+** e un progetto Supabase.
+---
+
+## ✏️ Come si configura
+
+Tutto in **un solo file**, [`site.config.ts`](site.config.ts):
+
+```ts
+export const site = {
+  artist: {
+    name: "Marta Lo Russo",
+    tagline: "Cantautrice da Napoli",
+    bio: "Voce e chitarra, testi di quartiere e di sogni.",
+    avatar: "/images/io.jpg",
+    accentColor: "#6c47ff",          // il colore del tuo sito
+    links: { instagram: "…", spotify: "…", email: "…" },
+  },
+  tracks: [
+    {
+      id: "quartiere",                // identificatore univoco
+      title: "Quartiere",
+      file: "/music/quartiere.mp3",   // file locale… oppure un URL esterno
+      cover: "/images/quartiere.jpg",
+      description: "Il primo singolo.",
+      releaseDate: "2026-05-01",
+    },
+  ],
+};
+```
+
+- I **file audio** vanno in `public/music/` (MP3, WAV, OGG). Puoi anche usare un URL esterno.
+- Le **copertine/foto** vanno in `public/images/`.
+- Il **colore** del sito si cambia con `accentColor`.
+
+## 📊 Contatori ascolti/like (opzionale)
+
+Di default il sito è **100% statico**: nessun backend, nessun contatore. Se vuoi sapere quanti ascolti e like ricevi:
+
+1. Crea un progetto gratuito su [supabase.com](https://supabase.com).
+2. Apri *SQL Editor*, incolla [`supabase/schema.sql`](supabase/schema.sql) ed esegui.
+3. Copia **Project URL** e **anon key** dal progetto e incollali nel campo `analytics` di `site.config.ts` (oppure come variabili `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`).
+
+I dati sono anonimi: nessun login, nessuna informazione personale di chi ascolta.
+
+## 💻 Sviluppo locale
+
+Serve **Node 18+**.
 
 ```bash
-git clone https://github.com/iltempe/emerging-artists-weekly
-cd emerging-artists-weekly
 npm install
-cp .env.example .env     # inserisci URL e anon key del tuo Supabase
-npm run dev              # http://localhost:5173
+npm run dev      # http://localhost:5173
+npm run build    # genera il sito statico in dist/
 ```
 
-### Configurare Supabase
+## 🧱 Com'è fatto
 
-1. Crea un progetto su [supabase.com](https://supabase.com).
-2. Esegui [`supabase/schema.sql`](supabase/schema.sql) nell'SQL Editor (tabelle, RLS, trigger, bucket).
-3. Copia **Project URL** e **anon key** in `.env`.
-4. (Sviluppo) In *Authentication → Providers → Email* puoi disattivare la conferma email per testare le registrazioni all'istante.
-
-## 📁 Struttura
+React + TypeScript + Vite + Tailwind. Sito statico: gira ovunque, anche su hosting gratuiti.
 
 ```
-src/
-├── main.tsx              # entry point + provider
-├── App.tsx              # router e layout
-├── lib/                 # supabase client, tipi, utility
-├── context/             # AuthContext, PlayerContext (player globale)
-├── components/          # Navbar, PlayerBar, TrackCard, form…
-└── pages/               # Home, ArtistPage, Login, Signup, Dashboard
-supabase/schema.sql       # schema DB + RLS + storage
-docs/archive/             # documenti del concept precedente (storico)
+site.config.ts        # ← l'unico file che modifichi
+public/music/         # i tuoi file audio
+public/images/        # copertine e foto
+src/                  # il codice del sito (player, layout, tema)
+supabase/schema.sql   # contatori opzionali
 ```
-
-## 🔐 Sicurezza & privacy
-
-- La **anon key** è pubblica per design: l'accesso ai dati è protetto da **Row Level Security**.
-- Ogni artista può modificare solo il proprio profilo e i propri brani.
-- I file vengono caricati in cartelle isolate per utente (`<uid>/...`).
-- Gli ascolti e i like sono **anonimi**: nessun dato personale dell'ascoltatore.
 
 ## 🤝 Contribuire
 
-Le contribuzioni sono benvenute! Vedi [CONTRIBUTING.md](CONTRIBUTING.md).
-Idee aperte: ricerca, generi/filtri, commenti, notifiche, embed esterni, i18n, PWA offline, app mobile.
+OpenStage è open source: idee, temi, traduzioni e codice sono benvenuti. Vedi [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 📄 Licenza
 

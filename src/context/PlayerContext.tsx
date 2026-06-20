@@ -6,27 +6,29 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { TrackPublic } from "../lib/types";
-import { publicUrl } from "../lib/supabase";
-import { trackEvent } from "../lib/utils";
+import type { Track } from "../lib/types";
+import { config } from "../lib/config";
+import { assetUrl, logEvent } from "../lib/utils";
 
 interface PlayerState {
-  current: TrackPublic | null;
+  current: Track | null;
   isPlaying: boolean;
   progress: number; // 0..1
   duration: number;
   currentTime: number;
-  play: (track: TrackPublic) => void;
+  play: (track: Track) => void;
   toggle: () => void;
   seek: (fraction: number) => void;
+  next: () => void;
+  prev: () => void;
 }
 
 const Ctx = createContext<PlayerState | undefined>(undefined);
+const tracks = config.tracks;
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const countedRef = useRef<string | null>(null);
-  const [current, setCurrent] = useState<TrackPublic | null>(null);
+  const [current, setCurrent] = useState<Track | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -40,7 +42,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     if (!a) return;
     const onTime = () => setCurrentTime(a.currentTime);
     const onDur = () => setDuration(a.duration || 0);
-    const onEnd = () => setIsPlaying(false);
+    const onEnd = () => skip(1);
     const onPlay = () => setIsPlaying(true);
     const onPause = () => setIsPlaying(false);
     a.addEventListener("timeupdate", onTime);
@@ -55,9 +57,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       a.removeEventListener("play", onPlay);
       a.removeEventListener("pause", onPause);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current]);
 
-  function play(track: TrackPublic) {
+  function play(track: Track) {
     const a = audioRef.current;
     if (!a) return;
     if (current?.id === track.id) {
@@ -65,15 +68,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       return;
     }
     setCurrent(track);
-    a.src = publicUrl("tracks", track.audio_path);
+    a.src = assetUrl(track.file);
     a.currentTime = 0;
-    countedRef.current = null;
     void a.play();
-    // Conta un "play" anonimo una sola volta per brano.
-    if (countedRef.current !== track.id) {
-      countedRef.current = track.id;
-      void trackEvent(track.id, "play");
-    }
+    void logEvent(track.id, "play");
   }
 
   function toggle() {
@@ -89,6 +87,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     a.currentTime = fraction * duration;
   }
 
+  function skip(dir: 1 | -1) {
+    if (!current) return;
+    const i = tracks.findIndex((t) => t.id === current.id);
+    const nextTrack = tracks[(i + dir + tracks.length) % tracks.length];
+    if (nextTrack) play(nextTrack);
+  }
+
   const value: PlayerState = {
     current,
     isPlaying,
@@ -98,6 +103,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     play,
     toggle,
     seek,
+    next: () => skip(1),
+    prev: () => skip(-1),
   };
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

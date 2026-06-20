@@ -1,50 +1,25 @@
-import { Routes, Route, Outlet } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import PlayerBar from "./components/PlayerBar";
-import ProtectedRoute from "./components/ProtectedRoute";
+import { useEffect } from "react";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard";
-import ArtistPage from "./pages/ArtistPage";
+import PlayerBar from "./components/PlayerBar";
+import { config } from "./lib/config";
+import { applyAccent } from "./lib/theme";
 
-function Layout() {
+export default function App() {
+  useEffect(() => {
+    applyAccent(config.artist.accentColor);
+    document.title = config.artist.name;
+  }, []);
+
   return (
-    <div className="min-h-dvh pb-24">
-      <Navbar />
-      <main>
-        <Outlet />
-      </main>
+    <div className="min-h-dvh">
+      <Home />
       <PlayerBar />
-      <footer className="mx-auto max-w-5xl px-4 py-10 text-center text-xs text-dim">
-        OpenStage — progetto open source ·{" "}
+      <footer className="mx-auto max-w-3xl px-4 pb-28 pt-6 text-center text-xs text-dim">
+        Sito di {config.artist.name} · creato con{" "}
         <a href="https://github.com/iltempe/emerging-artists-weekly" target="_blank" rel="noopener">
-          GitHub
+          OpenStage
         </a>
       </footer>
     </div>
-  );
-}
-
-export default function App() {
-  return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        {/* /@slug — react-router non supporta param parziali, cattura il segmento intero */}
-        <Route path="/:handle" element={<ArtistPage />} />
-        <Route path="*" element={<Home />} />
-      </Route>
-    </Routes>
   );
 }

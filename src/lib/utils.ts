@@ -1,15 +1,4 @@
-import { supabase } from "./supabase";
-
-/** Converte una stringa in slug URL-safe. */
-export function slugify(s: string): string {
-  return s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 40);
-}
+import { recordEvent } from "./analytics";
 
 /** Formatta i secondi in m:ss. */
 export function formatTime(sec: number): string {
@@ -24,29 +13,41 @@ export function compact(n: number): string {
   return Intl.NumberFormat("it", { notation: "compact" }).format(n ?? 0);
 }
 
+/** True se il path è un URL esterno. */
+export function isExternal(path: string): boolean {
+  return /^https?:\/\//i.test(path);
+}
+
+/** Risolve un path locale rispetto alla base del sito (per deploy in sottocartella). */
+export function assetUrl(path: string): string {
+  if (!path) return "";
+  if (isExternal(path)) return path;
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return `${base}/${path.replace(/^\//, "")}`;
+}
+
 // ---- anti-spam like/play via localStorage ----
 const KEY = "openstage_events";
-function readEvents(): Record<string, number> {
+function read(): Record<string, number> {
   try {
     return JSON.parse(localStorage.getItem(KEY) || "{}");
   } catch {
     return {};
   }
 }
-export function hasEvent(trackId: string, tipo: "play" | "like"): boolean {
-  return !!readEvents()[`${trackId}_${tipo}`];
+export function hasLocal(trackId: string, tipo: "play" | "like"): boolean {
+  return !!read()[`${trackId}_${tipo}`];
 }
-export function markEvent(trackId: string, tipo: "play" | "like"): void {
-  const data = readEvents();
+function mark(trackId: string, tipo: "play" | "like"): void {
+  const data = read();
   data[`${trackId}_${tipo}`] = Date.now();
   localStorage.setItem(KEY, JSON.stringify(data));
 }
 
-/** Registra un evento anonimo (una volta per device grazie a localStorage). */
-export async function trackEvent(trackId: string, tipo: "play" | "like"): Promise<boolean> {
-  if (hasEvent(trackId, tipo)) return false;
-  markEvent(trackId, tipo);
-  const { error } = await supabase.from("track_events").insert({ track_id: trackId, tipo });
-  if (error) console.warn("track_event", error.message);
+/** Registra l'evento una sola volta per dispositivo. Ritorna true se nuovo. */
+export async function logEvent(trackId: string, tipo: "play" | "like"): Promise<boolean> {
+  if (hasLocal(trackId, tipo)) return false;
+  mark(trackId, tipo);
+  await recordEvent(trackId, tipo);
   return true;
 }

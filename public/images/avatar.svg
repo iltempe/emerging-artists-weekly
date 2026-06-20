@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="a" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b6dff"/>
+      <stop offset="1" stop-color="#2a2140"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#a)"/>
+  <text x="50%" y="54%" font-family="Inter, sans-serif" font-size="150" font-weight="800"
+        fill="#fff" text-anchor="middle" dominant-baseline="middle" opacity="0.9">ML</text>
+</svg>
