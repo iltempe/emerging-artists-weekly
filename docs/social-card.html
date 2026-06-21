@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<link rel="preconnect" href="https://rsms.me/" />
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body {
+    width: 100vw; height: 100vh;
+    background: radial-gradient(1200px 700px at 15% -10%, #2a2140 0%, #0f0f12 55%);
+    color: #f3f3f6;
+    font-family: "Inter", system-ui, sans-serif;
+    display: flex; align-items: center; gap: 70px;
+    padding: 0 96px;
+  }
+  .left { flex: 1; }
+  .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; }
+  .logo {
+    width: 64px; height: 64px; border-radius: 16px;
+    background: linear-gradient(135deg, #6c47ff, #462cc0);
+    display: grid; place-items: center; font-size: 34px;
+  }
+  .brand span { font-size: 34px; font-weight: 800; letter-spacing: -0.5px; }
+  .tag {
+    display: inline-block; font-size: 20px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #8b6dff; margin-bottom: 18px;
+  }
+  h1 { font-size: 78px; line-height: 1.02; font-weight: 800; letter-spacing: -2px; }
+  h1 .hl { color: #8b6dff; }
+  p.sub { margin-top: 28px; font-size: 30px; line-height: 1.4; color: #a0a0ad; max-width: 720px; }
+  .pills { margin-top: 38px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .pill {
+    font-size: 22px; font-weight: 600; padding: 12px 22px; border-radius: 999px;
+    background: #18181f; border: 1px solid #20202a;
+  }
+  .url { margin-top: 46px; font-size: 26px; font-weight: 700; color: #f3f3f6; }
+  .url b { color: #8b6dff; }
+
+  /* card "fan" a destra */
+  .card {
+    width: 420px; flex-shrink: 0; border-radius: 36px;
+    background: linear-gradient(150deg, #6c47ff, #1a1430);
+    padding: 56px 40px; text-align: center;
+    box-shadow: 0 40px 90px rgba(108,71,255,.35);
+    transform: rotate(3deg);
+  }
+  .cover {
+    width: 200px; height: 200px; margin: 0 auto 30px; border-radius: 28px;
+    background: linear-gradient(135deg, #ff7a59, #6c47ff);
+    display: grid; place-items: center; position: relative; overflow: hidden;
+  }
+  .cover .bars { display: flex; gap: 10px; align-items: flex-end; }
+  .cover .bars i { width: 18px; background: #0f0f12; border-radius: 3px; display: block; }
+  .cover .sun { position: absolute; top: 26px; right: 30px; width: 26px; height: 26px; border-radius: 50%; background: #fff; }
+  .card .big { font-size: 56px; font-weight: 800; }
+  .card .of { font-size: 30px; font-weight: 600; margin-top: 4px; }
+  .card .song { margin-top: 14px; font-size: 22px; color: rgba(255,255,255,.7); }
+  .card .foot { margin-top: 34px; font-size: 20px; font-weight: 700; color: rgba(255,255,255,.6); }
+</style>
+</head>
+<body>
+  <div class="left">
+    <div class="brand"><div class="logo">🎤</div><span>Palco</span></div>
+    <div class="tag">Open source · per cantautori</div>
+    <h1>Il tuo sito musicale.<br /><span class="hl">Tuo davvero.</span></h1>
+    <p class="sub">Carichi i tuoi brani, lo pubblichi sul tuo dominio, i fan lo installano come app. E ogni like dice “sei il 7° fan”.</p>
+    <div class="pills">
+      <div class="pill">📲 Installabile come app</div>
+      <div class="pill">🎉 Badge “primo fan”</div>
+      <div class="pill">🇮🇹 / 🇬🇧</div>
+    </div>
+    <div class="url">⭐ github.com/iltempe/<b>palco</b></div>
+  </div>
+
+  <div class="card">
+    <div class="cover">
+      <span class="sun"></span>
+      <div class="bars"><i style="height:60px"></i><i style="height:96px"></i><i style="height:74px"></i><i style="height:110px"></i></div>
+    </div>
+    <div class="big">Sei il 7° fan</div>
+    <div class="of">di Marta Lo Russo</div>
+    <div class="song">“Quartiere”</div>
+    <div class="foot">ascolta su Palco 🎤</div>
+  </div>
+</body>
+</html>
