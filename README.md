@@ -1,10 +1,10 @@
-# OpenStage 🎤
+# Palco 🎤
 
 **Your music website, online in minutes.**
 
 🇬🇧 English · [🇮🇹 Italiano](README.it.md)
 
-OpenStage is an open-source template for **a single singer-songwriter**: add your tracks, write your info in one file, publish. No accounts to manage, no third-party platform deciding who hears you. It's **your** site, on **your** domain — and fans can **install it as an app** on their phone.
+Palco is an open-source template for **a single singer-songwriter**: add your tracks, write your info in one file, publish. No accounts to manage, no third-party platform deciding who hears you. It's **your** site, on **your** domain — and fans can **install it as an app** on their phone.
 
 > Not a coder? The steps are literally "edit a text file, drop in your MP3s, click deploy".
 
@@ -19,13 +19,13 @@ OpenStage is an open-source template for **a single singer-songwriter**: add you
 3. **Add your music** — drop files into `public/music/` and cover art into `public/images/`, then add one block per track in the `tracks` list.
 4. **Publish** — one click:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/iltempe/emerging-artists-weekly)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/iltempe/palco)
 &nbsp;
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/iltempe/emerging-artists-weekly)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/iltempe/palco)
 
 Vercel and Netlify build the site for you and give you an `https://…` address. You can also connect **your own domain** (e.g. `www.yourname.com`) from their dashboard in two clicks.
 
-> Prefer **GitHub Pages**? It's free and ready: go to *Settings → Pages → Source: GitHub Actions*. The included workflow publishes on every change. Live demo: <https://iltempe.github.io/emerging-artists-weekly/>
+> Prefer **GitHub Pages**? It's free and ready: go to *Settings → Pages → Source: GitHub Actions*. The included workflow publishes on every change. Live demo: <https://iltempe.github.io/palco/>
 
 ---
 
@@ -112,7 +112,7 @@ supabase/schema.sql   # optional counters
 
 ## 🤝 Contributing
 
-OpenStage is open source: ideas, themes, translations and code are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
+Palco is open source: ideas, themes, translations and code are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 📄 License
 

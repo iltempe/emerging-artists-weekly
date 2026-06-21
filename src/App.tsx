@@ -16,8 +16,8 @@ export default function App() {
       <PlayerBar />
       <footer className="mx-auto max-w-3xl px-4 pb-28 pt-6 text-center text-xs text-dim">
         Sito di {config.artist.name} · creato con{" "}
-        <a href="https://github.com/iltempe/emerging-artists-weekly" target="_blank" rel="noopener">
-          OpenStage
+        <a href="https://github.com/iltempe/palco" target="_blank" rel="noopener">
+          Palco
         </a>
       </footer>
     </div>

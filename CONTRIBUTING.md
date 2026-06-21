@@ -1,6 +1,6 @@
-# Contribuire a OpenStage
+# Contribuire a Palco
 
-Grazie per l'interesse! OpenStage è un template open-source che permette a un cantautore di avere il proprio sito musicale in pochi minuti. Contributi di ogni tipo — codice, design, temi, documentazione, traduzioni — sono benvenuti.
+Grazie per l'interesse! Palco è un template open-source che permette a un cantautore di avere il proprio sito musicale in pochi minuti. Contributi di ogni tipo — codice, design, temi, documentazione, traduzioni — sono benvenuti.
 
 ## Come iniziare
 
